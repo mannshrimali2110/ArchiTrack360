@@ -45,7 +45,7 @@ Follow these steps to set up Architrack 360 on your local machine:
      ```
    - **Frontend**: Create a `.env` file in the `client` directory and add the following variable:
      ```env
-     VITE_BACKEND_URL=backend port
+     VITE_BACKEND_URL="backend URL with backend PORT"
      ```
 
 4. **Start the Application**:
