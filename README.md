@@ -1,6 +1,6 @@
 # Architrack 360
 
-Architrack 360 is a comprehensive project management and collaboration tool designed for architects and construction professionals. It streamlines workflows, enhances team communication, and provides real-time tracking of project progress. With Architrack 360, users can manage tasks, share documents, and monitor timelines effectively, ensuring projects are completed on time and within budget.
+Architrack 360 is a comprehensive project management and collaboration tool designed for architects and construction professionals. It streamlines workflows, enhances team communication, and provides real-time tracking of project progress. With Architrack 360, users can manage tasks, ensuring projects are completed on time and within budget.
 
 ## Features
 
