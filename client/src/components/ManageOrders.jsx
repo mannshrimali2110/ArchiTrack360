@@ -1,0 +1,218 @@
+import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchOrders, deleteOrder, updateOrder } from '../redux/order/orderSlice';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+const ManageOrders = () => {
+  const dispatch = useDispatch();
+  const { orders, isLoading, error } = useSelector((state) => state.order);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [updatedOrder, setUpdatedOrder] = useState({
+    customerName: '',
+    productName: '',
+    quantity: '',
+    price: '',
+  });
+  // const temp = useSelector((state) => state);
+  // console.log(temp);
+
+  useEffect(() => {
+    dispatch(fetchOrders());
+  }, [dispatch]);
+
+  useEffect(() => {
+  }, [orders]);
+
+  const handleDelete = (orderId) => {
+    if (window.confirm('Are you sure you want to delete this order?')) {
+      dispatch(deleteOrder(orderId));
+    }
+  };
+
+  const handleUpdate = () => {
+    const updatedPayload = {
+      id: selectedOrder._id,
+      item: updatedOrder, // Ensure the payload matches the expected structure in the slice
+    };
+
+    dispatch(updateOrder(updatedPayload))
+      .unwrap()
+      .then(() => {
+        alert('Order updated successfully');
+      })
+      .catch((error) => {
+        alert(`Failed to update order: ${error.message}`);
+      });
+    setModalShow(false);
+  };
+
+  const handleEditClick = (order) => {
+    setSelectedOrder(order);
+    setUpdatedOrder({
+      customerName: order.customerName,
+      productName: order.productName,
+      quantity: order.quantity,
+      price: order.price,
+    });
+    setModalShow(true);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedOrder((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value.toLowerCase());
+  };
+
+  const filteredOrders = orders.filter((order) =>
+    order.customerName.toLowerCase().includes(searchTerm) ||
+    order.productName.toLowerCase().includes(searchTerm)
+  );
+
+  return (
+    <div className="container mt-5">
+      <h2 className="mb-4">Manage Orders</h2>
+
+      <div className="input-group mb-3">
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search by Customer or Product"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div className="alert alert-danger">{error}</div>
+      ) : (
+        <table className="table table-striped">
+          <thead className="thead-dark">
+            <tr>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price ($)</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders.length > 0 ? (
+              filteredOrders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order.customerName}</td>
+                  <td>{order.productName}</td>
+                  <td>{order.quantity}</td>
+                  <td>{order.price}</td>
+                  <td>
+                    <div className="mb-3 d-flex gap-2">
+                      <button
+                        className="btn btn-warning"
+                        onClick={() => handleEditClick(order)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleDelete(order._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  {isLoading ? 'Loading orders...' : 'No orders found'} {/* Improved message */}
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      )}
+
+      {/* Update Modal */}
+      <div className={`modal ${modalShow ? 'show' : ''}`} tabIndex="-1" role="dialog" style={{ display: modalShow ? 'block' : 'none' }}>
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Update Order</h5>
+              <button type="button" className="close" aria-label="Close" onClick={() => setModalShow(false)}>
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form>
+                <div className="form-group">
+                  <label>Customer Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="customerName"
+                    value={updatedOrder.customerName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Product Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="productName"
+                    value={updatedOrder.productName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Quantity</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="quantity"
+                    value={updatedOrder.quantity}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Price</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    name="price"
+                    value={updatedOrder.price}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </form>
+            </div>
+            <div className="modal-footer">
+              <div className="mb-3">
+                <button type="button" className="btn btn-secondary"
+                  onClick={() => setModalShow(false)}
+                >Close
+                </button>
+              </div>
+              <div className="mb-3">
+                <button type="button" className="btn btn-primary" onClick={handleUpdate}>Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ManageOrders;
