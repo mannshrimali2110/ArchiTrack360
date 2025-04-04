@@ -3,8 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/Login'; // Ensure the path is correct
 import Signup from './components/Signup'; // Ensure the path is correct
 import Dashboard from './components/Dashboard'; // Ensure the path is correct
-import Sidebar from './components/Sidebar'; // Ensure the path is correct
-import Navbar from './components/Navbar'; // Ensure the path is correct
 import AddInventoryItem from './components/AddInventoryItem'; // Ensure the path is correct
 import ManageInventory from './components/ManageInventory'; // Ensure the path is correct
 import './App.css';
@@ -21,6 +19,7 @@ import AboutUs from './pages/AboutUs';
 import EditSupplier from './components/EditSuppliers';
 import GenerateReport from './components/GenerateReport'; // Import GenerateReport
 import ViewOrders from './components/ViewOrders'; // Import ViewOrders
+import DashboardLayout from './components/DashboardLayout';
 
 function App() {
   return (
@@ -34,193 +33,129 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <Dashboard />
-              </div>
-            </>
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/inventory/add"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AddInventoryItem />
-              </div>
-            </>
+            <DashboardLayout>
+              <AddInventoryItem />
+            </DashboardLayout>
           }
         />
         <Route
           path="/manage-inventory"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ManageInventory />
-              </div>
-            </>
+            <DashboardLayout>
+              <ManageInventory />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/employee/add"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AddEmployee />
-              </div>
-            </>
+            <DashboardLayout>
+              <AddEmployee />
+            </DashboardLayout>
           }
         />
         <Route
           path="/manage-employee"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ManageEmployee />
-              </div>
-            </>
+            <DashboardLayout>
+              <ManageEmployee />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/sales/add"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AddSalesRecord />
-              </div>
-            </>
+            <DashboardLayout>
+              <AddSalesRecord />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/sales/manage"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ManageSales />
-              </div>
-            </>
+            <DashboardLayout>
+              <ManageSales />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/suppliers/add"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AddSupplier />
-              </div>
-            </>
+            <DashboardLayout>
+              <AddSupplier />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/suppliers/manage"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ManageSuppliers />
-              </div>
-            </>
+            <DashboardLayout>
+              <ManageSuppliers />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/orders/add"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AddOrder />
-              </div>
-            </>
+            <DashboardLayout>
+              <AddOrder />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/orders/manage"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ManageOrders />
-              </div>
-            </>
+            <DashboardLayout>
+              <ManageOrders />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/settings"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <Settings />
-              </div>
-            </>
+            <DashboardLayout>
+              <Settings />
+            </DashboardLayout>
           }
         />
         <Route
           path="/aboutus"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <AboutUs />
-              </div>
-            </>
+            <DashboardLayout>
+              <AboutUs />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/suppliers/edit/:id"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <EditSupplier />
-              </div>
-            </>
+            <DashboardLayout>
+              <EditSupplier />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/sales/report"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <GenerateReport />
-              </div>
-            </>
+            <DashboardLayout>
+              <GenerateReport />
+            </DashboardLayout>
           }
         />
         <Route
           path="/dashboard/orders/view"
           element={
-            <>
-              <Navbar />
-              <div className="app-container">
-                <Sidebar />
-                <ViewOrders />
-              </div>
-            </>
+            <DashboardLayout>
+              <ViewOrders />
+            </DashboardLayout>
           }
         />
       </Routes>

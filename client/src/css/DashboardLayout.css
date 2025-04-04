@@ -1,0 +1,15 @@
+.dashboard-layout {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust height to exclude Navbar height */
+}
+
+.dashboard-layout .dashboard-content {
+  flex: 1; /* Take remaining space after Sidebar */
+  padding: 20px; /* Add some padding for content */
+  overflow-y: auto; /* Enable scrolling for content if needed */
+}
+
+.dashboard-layout .sidebar {
+  width: 250px; /* Fixed width for Sidebar */
+  flex-shrink: 0; /* Prevent Sidebar from shrinking */
+}
