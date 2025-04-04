@@ -7,9 +7,6 @@ const Inventory = require('../models/InventoryItem');
 const generateSalesReport = async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = req.user.id; // Assuming req.user contains the logged-in user's ID
-    console.log(`User ID: ${userId}`);
-    console.log(`Start Date: ${startDate}`);
-    console.log(`End Date: ${endDate}`);
 
     try {
         // Parse dates to ensure they are in ISO 8601 format
@@ -47,7 +44,6 @@ const generateSalesReport = async (req, res) => {
             }
             return acc;
         }, []);
-        console.log(report);
         res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Error generating report', error });
@@ -57,16 +53,12 @@ const generateSalesReport = async (req, res) => {
 const generateSuppliersReport = async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = req.user.id;
-    console.log(`User ID: ${userId}`);
-    console.log(`Start Date: ${startDate}`);
-    console.log(`End Date: ${endDate}`);
 
     try {
         const parsedStartDate = new Date(startDate);
         const parsedEndDate = new Date(endDate);
 
         const suppliers = await Suppliers.find({ userId: userId }); // Ensure 'userId' matches the Suppliers model field
-        console.log(suppliers);
 
         const report = suppliers.filter(supplier => {
             const supplyDate = new Date(supplier.date);
@@ -80,7 +72,6 @@ const generateSuppliersReport = async (req, res) => {
             paymentTerms: supplier.paymentTerms,
         }));
 
-        console.log(report);
         res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Error generating suppliers report', error });
@@ -90,9 +81,6 @@ const generateSuppliersReport = async (req, res) => {
 const generateEmployeesReport = async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = req.user.id;
-    console.log(`User ID: ${userId}`);
-    console.log(`Start Date: ${startDate}`);
-    console.log(`End Date: ${endDate}`);
 
     try {
         const parsedStartDate = new Date(startDate);
@@ -109,7 +97,6 @@ const generateEmployeesReport = async (req, res) => {
             date: employee.date.toISOString().split('T')[0], // Format date to YYYY-MM-DD
         }));
 
-        console.log(report);
         res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Error generating employees report', error });
@@ -119,17 +106,12 @@ const generateEmployeesReport = async (req, res) => {
 const generateOrdersReport = async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = req.user.id;
-    console.log(`User ID: ${userId}`);
-    console.log(`Start Date: ${startDate}`);
-    console.log(`End Date: ${endDate}`);
 
     try {
         const parsedStartDate = new Date(startDate);
         const parsedEndDate = new Date(endDate);
 
         const orders = await Orders.find({ ownerID: userId }); // Ensure 'userId' matches the Orders model field
-        console.log(orders);
-        console.log("here done");
 
         const report = orders.filter(order => {
             const orderDate = new Date(order.date);
@@ -141,7 +123,6 @@ const generateOrdersReport = async (req, res) => {
             date: order.date.toISOString().split('T')[0],
         }));
 
-        // console.log(report);
         res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Error generating orders report', error });
@@ -151,9 +132,6 @@ const generateOrdersReport = async (req, res) => {
 const generateInventoryReport = async (req, res) => {
     const { startDate, endDate } = req.query;
     const userId = req.user.id;
-    console.log(`User ID: ${userId}`);
-    console.log(`Start Date: ${startDate}`);
-    console.log(`End Date: ${endDate}`);
 
     try {
         const parsedStartDate = new Date(startDate);
@@ -170,7 +148,6 @@ const generateInventoryReport = async (req, res) => {
             date: item.date.toISOString().split('T')[0],
         }));
 
-        console.log(report);
         res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Error generating inventory report', error });
