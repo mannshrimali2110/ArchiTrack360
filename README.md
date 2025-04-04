@@ -41,7 +41,7 @@ Follow these steps to set up Architrack 360 on your local machine:
      ```env
      MONGO_URI=mongodb://localhost:27017/ContructionManagement
      PORT=backend port
-     JWT_SECRET="your JWT port"
+     JWT_SECRET="your JWT key"
      ```
    - **Frontend**: Create a `.env` file in the `client` directory and add the following variable:
      ```env
