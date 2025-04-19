@@ -4,10 +4,18 @@ import '../App.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Card, Table } from 'react-bootstrap';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 import axios from 'axios';
 
-// Register components
+// Register components for Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
@@ -24,14 +32,14 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem('token'); // Retrieve JWT token from localStorage
+      const token = localStorage.getItem('token');
       const config = {
         headers: {
-          Authorization: `Bearer ${token}`, // Add Authorization header
+          Authorization: `Bearer ${token}`,
         },
       };
 
-      const baseUrl = import.meta.env.VITE_BACKEND_URL; // ✅ Correct for Vite
+      const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
       const ordersResponse = await axios.get(`${baseUrl}/api/orders/`, config);
       setTotalOrders(ordersResponse.data.length);
@@ -64,32 +72,39 @@ const Dashboard = () => {
     datasets: [
       {
         label: 'Sales',
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(0, 123, 255, 0.6)',
+        borderColor: 'rgba(0, 123, 255, 1)',
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(75, 192, 192, 0.8)',
-        hoverBorderColor: 'rgba(75, 192, 192, 1)',
+        hoverBackgroundColor: 'rgba(0, 123, 255, 0.8)',
+        hoverBorderColor: 'rgba(0, 123, 255, 1)',
         data: salesData.map((data) => data.sales),
       },
     ],
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{ backgroundColor: '#1f2937', color: 'white', minHeight: '100vh' }}>
       <div className="row">
         <div className="col-md-10 offset-md-1" style={{ marginTop: '10px' }}>
           <div className="mt-4 px-3">
-            <h1 className="text-center">Admin Dashboard</h1>
+            <h1 className="text-center" style={{ color: 'white' }}>Admin Dashboard</h1>
 
+            {/* Total Stats Boxes */}
             <div className="row mt-5">
               {[totalOrders, totalSuppliers, totalInventory, totalEmployees].map((total, index) => (
                 <div className="col-md-3" key={index}>
-                  <Card className="custom-card text-center mb-4 shadow-sm">
+                  <Card
+                    className="custom-card text-center mb-4 shadow-sm"
+                    style={{
+                      backgroundColor: '#2d3748',
+                      border: '2px solid white',
+                    }}
+                  >
                     <Card.Body>
-                      <Card.Title>
+                      <Card.Title style={{ color: 'white' }}>
                         {['Total Orders', 'Total Suppliers', 'Total Inventory', 'Total Employees'][index]}
                       </Card.Title>
-                      <Card.Text className="display-6">
+                      <Card.Text className="display-6" style={{ color: 'white' }}>
                         {total !== undefined ? total : 'Loading...'}
                       </Card.Text>
                     </Card.Body>
@@ -98,11 +113,15 @@ const Dashboard = () => {
               ))}
             </div>
 
+            {/* Employee Table */}
             <div className="row mt-4">
               <div className="col-12">
-                <h3 className="text-center">Employees</h3>
-                <Table className="custom-table table-striped table-bordered table-hover mt-3">
-                  <thead className="table-dark">
+                <h3 className="text-center" style={{ color: 'white' }}>Employees</h3>
+                <Table
+                  className="custom-table table-striped table-bordered table-hover mt-3"
+                  style={{ backgroundColor: '#2d3748', color: 'white' }}
+                >
+                  <thead style={{ backgroundColor: '#2d3748', color: 'white' }}>
                     <tr>
                       <th>Name</th>
                       <th>Department</th>
@@ -122,14 +141,16 @@ const Dashboard = () => {
               </div>
             </div>
 
+            {/* Sales Chart */}
             <div className="row mt-4">
               <div className="col-12">
-                <h3 className="text-center">Sales</h3>
+                <h3 className="text-center" style={{ color: 'white' }}>Sales</h3>
                 <div className="chart-container mt-3">
                   <Bar data={salesChartData} />
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

@@ -15,16 +15,18 @@ const AddSupplier = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setMessage('');
 
     try {
-      const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
+      const userId = localStorage.getItem('userId');
       await dispatch(addSupplier({ ...supplier, userId })).unwrap();
-      alert('Supplier added successfully');
+      setMessage('✅ Supplier added successfully');
       setSupplier({
         supplierName: '',
         phone: '',
@@ -35,81 +37,86 @@ const AddSupplier = () => {
       });
     } catch (err) {
       console.error('Error adding supplier:', err);
-      setError('Failed to add supplier. Please try again.');
+      setError('❌ Failed to add supplier. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="container mt-5">
-      <h2>Add Supplier</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Supplier Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={supplier.supplierName}
-            onChange={(e) => setSupplier({ ...supplier, supplierName: e.target.value })}
-            required
-          />
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ minHeight: '100vh', backgroundColor: '#eaf2fb' }}
+    >
+      <div className="w-100" style={{ maxWidth: '700px' }}>
+        <div
+          className="p-5 rounded shadow"
+          style={{
+            backgroundColor: '#f5faff',
+            borderLeft: '6px solid #3b5b92',
+            boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
+          }}
+        >
+          <h3 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>
+            🧾 Add Supplier
+          </h3>
+
+          {message && (
+            <div className="alert alert-success text-center fw-medium">
+              {message}
+            </div>
+          )}
+
+          {error && (
+            <div className="alert alert-danger text-center fw-medium">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {[
+              { label: 'Supplier Name', key: 'supplierName', type: 'text' },
+              { label: 'Phone', key: 'phone', type: 'tel' },
+              { label: 'Email', key: 'email', type: 'email' },
+              { label: 'Address', key: 'address', type: 'text' },
+              { label: 'Supply Products', key: 'supplyProducts', type: 'text' },
+              { label: 'Payment Terms', key: 'paymentTerms', type: 'text' },
+            ].map((field) => (
+              <div className="mb-3" key={field.key}>
+                <label className="form-label fw-semibold">{field.label}</label>
+                <input
+                  type={field.type}
+                  className="form-control"
+                  value={supplier[field.key]}
+                  onChange={(e) =>
+                    setSupplier({ ...supplier, [field.key]: e.target.value })
+                  }
+                  required
+                  style={{
+                    backgroundColor: '#e1ebf7',
+                    borderColor: '#aac4e4',
+                    color: '#1c2a3a',
+                  }}
+                />
+              </div>
+            ))}
+
+            <button
+              type="submit"
+              className="btn w-100 fw-bold"
+              disabled={loading}
+              style={{
+                backgroundColor: '#3b5b92',
+                borderColor: '#2e4975',
+                color: '#ffffff',
+                letterSpacing: '0.5px',
+              }}
+            >
+              {loading ? '⏳ Adding Supplier...' : '📥 Add Supplier'}
+            </button>
+          </form>
         </div>
-        <div className="mb-3">
-          <label className="form-label">Phone</label>
-          <input
-            type="tel"
-            className="form-control"
-            value={supplier.phone}
-            onChange={(e) => setSupplier({ ...supplier, phone: e.target.value })}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={supplier.email}
-            onChange={(e) => setSupplier({ ...supplier, email: e.target.value })}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Address</label>
-          <input
-            type="text"
-            className="form-control"
-            value={supplier.address}
-            onChange={(e) => setSupplier({ ...supplier, address: e.target.value })}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Supply Products</label>
-          <input
-            type="text"
-            className="form-control"
-            value={supplier.supplyProducts}
-            onChange={(e) => setSupplier({ ...supplier, supplyProducts: e.target.value })}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Payment Terms</label>
-          <input
-            type="text"
-            className="form-control"
-            value={supplier.paymentTerms}
-            onChange={(e) => setSupplier({ ...supplier, paymentTerms: e.target.value })}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Adding...' : 'Add Supplier'}
-        </button>
-        {error && <div className="alert alert-danger mt-3">{error}</div>}
-      </form>
+      </div>
     </div>
   );
 };

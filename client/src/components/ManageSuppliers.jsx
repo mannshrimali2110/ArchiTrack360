@@ -1,13 +1,19 @@
-// components/ManageSuppliers.js
 import { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSuppliers, deleteSupplier, setSelectedSupplier } from '../redux/supplier/supplierSlice';
+import {
+  fetchSuppliers,
+  deleteSupplier,
+  setSelectedSupplier,
+} from '../redux/supplier/supplierSlice';
 
 const ManageSuppliers = () => {
   const dispatch = useDispatch();
-  const { suppliers, isLoading, error } = useSelector((state) => state.supplier);
+  const { suppliers, isLoading, error } = useSelector(
+    (state) => state.supplier
+  );
 
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
@@ -15,12 +21,11 @@ const ManageSuppliers = () => {
   const [debouncedFilter, setDebouncedFilter] = useState('');
   const navigate = useNavigate();
 
-  // Debounce input to reduce API calls
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       setDebouncedSearch(search.trim());
       setDebouncedFilter(filter.trim());
-    }, 500); // 500ms delay
+    }, 500);
 
     return () => clearTimeout(delayDebounce);
   }, [search, filter]);
@@ -29,77 +34,133 @@ const ManageSuppliers = () => {
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     dispatch(deleteSupplier(id));
   };
 
   const handleEdit = (id) => {
-    const supplier = suppliers.find((supplier) => supplier._id === id);
+    const supplier = suppliers.find((s) => s._id === id);
     if (supplier) {
       dispatch(setSelectedSupplier(supplier));
       navigate(`/dashboard/suppliers/edit/${id}`);
     }
   };
 
-  const filteredSuppliers = suppliers.filter((supplier) =>
-    supplier.supplierName.toLowerCase().includes(debouncedSearch.toLowerCase()) &&
-    supplier.supplyProducts.toLowerCase().includes(debouncedFilter.toLowerCase())
+  const filteredSuppliers = suppliers.filter(
+    (supplier) =>
+      supplier.supplierName
+        .toLowerCase()
+        .includes(debouncedSearch.toLowerCase()) &&
+      supplier.supplyProducts
+        .toLowerCase()
+        .includes(debouncedFilter.toLowerCase())
   );
 
   return (
-    <div className="container mt-5">
-      <h2>Manage Suppliers</h2>
-      <input
-        type="text"
-        className="form-control mb-3"
-        placeholder="Search by name..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <input
-        type="text"
-        className="form-control mb-3"
-        placeholder="Filter by products..."
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
-      <Link to="/dashboard/suppliers/add" className="btn btn-primary mb-3">Add New Supplier</Link>
+    <div
+      className="container mt-5"
+      style={{
+        maxWidth: '1000px',
+        backgroundColor: '#f5faff',
+        padding: '30px',
+        borderRadius: '10px',
+      }}
+    >
+      <h2 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>
+        🗂️ Manage Suppliers
+      </h2>
+
+      <div className="d-flex flex-column align-items-center mb-4">
+        <input
+          type="text"
+          className="form-control mb-3 w-75"
+          placeholder="🔍 Search by name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            backgroundColor: '#e1ebf7',
+            borderColor: '#aac4e4',
+            color: '#1c2a3a',
+          }}
+        />
+        <input
+          type="text"
+          className="form-control w-75"
+          placeholder="🧾 Filter by products..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          style={{
+            backgroundColor: '#e1ebf7',
+            borderColor: '#aac4e4',
+            color: '#1c2a3a',
+          }}
+        />
+      </div>
+
+      <div className="text-center mb-4">
+        <Link
+          to="/dashboard/suppliers/add"
+          className="btn fw-bold"
+          style={{
+            backgroundColor: '#3b5b92',
+            borderColor: '#2e4975',
+            color: '#ffffff',
+            padding: '10px 20px',
+            letterSpacing: '0.5px',
+          }}
+        >
+          ➕ Add New Supplier
+        </Link>
+      </div>
+
       {isLoading ? (
         <p>Loading...</p>
       ) : error ? (
-        <p className="text-danger">{error}</p>
+        <p className="text-danger text-center">{error}</p>
       ) : filteredSuppliers.length === 0 ? (
-        <p>No suppliers found</p>
+        <p className="text-center">No suppliers found</p>
       ) : (
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Supplier Name</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Supply Products</th>
-              <th>Payment Terms</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredSuppliers.map((supplier) => (
-              <tr key={supplier._id}>
-                <td>{supplier.supplierName}</td>
-                <td>{supplier.phone}</td>
-                <td>{supplier.email}</td>
-                <td>{supplier.address}</td>
-                <td>{supplier.supplyProducts}</td>
-                <td>{supplier.paymentTerms}</td>
-                <td>
-                  <button className="btn btn-warning me-2" onClick={() => handleEdit(supplier._id)}>Edit</button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(supplier._id)}>Delete</button>
-                </td>
+        <div className="table-responsive">
+          <table className="table table-bordered table-striped">
+            <thead className="table-dark text-center">
+              <tr>
+                <th><i className="bi bi-person-lines-fill me-2"></i>Supplier Name</th>
+                <th><i className="bi bi-telephone-fill me-2"></i>Phone</th>
+                <th><i className="bi bi-envelope-fill me-2"></i>Email</th>
+                <th><i className="bi bi-geo-alt-fill me-2"></i>Address</th>
+                <th><i className="bi bi-box-seam me-2"></i>Supply Products</th>
+                <th><i className="bi bi-cash-stack me-2"></i>Payment Terms</th>
+                <th><i className="bi bi-tools me-2"></i>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredSuppliers.map((supplier) => (
+                <tr key={supplier._id}>
+                  <td>{supplier.supplierName}</td>
+                  <td>{supplier.phone}</td>
+                  <td>{supplier.email}</td>
+                  <td>{supplier.address}</td>
+                  <td>{supplier.supplyProducts}</td>
+                  <td>{supplier.paymentTerms}</td>
+                  <td className="text-center">
+                    <button
+                      className="btn btn-warning me-2"
+                      onClick={() => handleEdit(supplier._id)}
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(supplier._id)}
+                    >
+                      🗑️ Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

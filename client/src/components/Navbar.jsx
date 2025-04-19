@@ -24,16 +24,16 @@ const Navbar = () => {
           />
         </div>
       </a>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-6">
         <a
-          className="hover:text-gray-300 text-white no-underline px-4 py-2 rounded-md bg-blue-500 hover:bg-blue-600 transition duration-300"
+          className="text-white no-underline px-6 py-3 rounded-md bg-gray-800 hover:bg-gray-700 transition duration-300"
           href="/aboutus"
           style={{ textDecoration: 'none' }}
         >
           About Us
         </a>
         <button
-          className="hover:text-gray-300 bg-red-500 px-4 py-2 rounded"
+          className="text-white px-6 py-3 rounded-md bg-gray-800 hover:bg-gray-700 transition duration-300"
           onClick={handleLogout}
         >
           Logout
