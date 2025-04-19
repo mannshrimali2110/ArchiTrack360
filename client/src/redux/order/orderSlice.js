@@ -56,6 +56,7 @@ const orderSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchOrders.fulfilled, (state, action) => {
+                console.log('fetchOrders fulfilled:', action.payload); // Debugging log
                 state.status = 'succeeded';
                 state.loading = false;
                 state.data = action.payload; // Populate `data` with fetched orders

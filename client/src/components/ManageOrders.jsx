@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ManageOrders = () => {
   const dispatch = useDispatch();
-  const { orders, isLoading, error } = useSelector((state) => state.order);
+  const { data: orders, loading: isLoading, error } = useSelector((state) => state?.order);
   const [searchTerm, setSearchTerm] = useState('');
   const [modalShow, setModalShow] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -15,17 +15,29 @@ const ManageOrders = () => {
     quantity: '',
     price: '',
   });
-  // const temp = useSelector((state) => state);
-  // console.log(temp);
 
   useEffect(() => {
-    dispatch(fetchOrders());
-  }, [dispatch]);
+    if (!orders || orders.length === 0) {
+      console.log('Dispatching fetchOrders...'); // Debugging log
+      dispatch(fetchOrders());
+    }
+  }, [dispatch, orders]); // Fetch orders only if not already fetched
 
   useEffect(() => {
-  }, [orders]);
+    if (orders) {
+      console.log('Orders updated:', orders);
+    }
+    console.log('Loading status:', isLoading);
+    if (error) {
+      console.error('Error fetching orders:', error);
+    }
+  }, [orders, isLoading, error]);
+
+  // Debugging fetchOrders dispatch
+  console.log('fetchOrders action dispatched');
 
   const handleDelete = (orderId) => {
+    console.log('Attempting to delete order with ID:', orderId);
     if (window.confirm('Are you sure you want to delete this order?')) {
       dispatch(deleteOrder(orderId));
     }
@@ -71,7 +83,7 @@ const ManageOrders = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
-  const filteredOrders = orders.filter((order) =>
+  const filteredOrders = (orders || []).filter((order) =>
     order.customerName.toLowerCase().includes(searchTerm) ||
     order.productName.toLowerCase().includes(searchTerm)
   );
