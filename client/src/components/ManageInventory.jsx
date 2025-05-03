@@ -1,6 +1,7 @@
 // src/components/ManageInventory.js
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Notification from './Notification';
 import {
   fetchInventory,
   deleteInventoryItem,
@@ -12,6 +13,7 @@ const ManageInventory = () => {
   const { items, isLoading, error } = useSelector((state) => state.inventory);
   const [search, setSearch] = useState('');
   const [editItem, setEditItem] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     dispatch(fetchInventory());
@@ -20,12 +22,15 @@ const ManageInventory = () => {
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       dispatch(deleteInventoryItem(id));
+      setNotification('Item deleted successfully!');
+      setTimeout(() => setNotification(null), 3000);
     }
   };
 
   const handleUpdate = (e) => {
     e.preventDefault();
     dispatch(updateInventoryItem({ id: editItem._id, item: editItem }));
+    window.alert('✅ Item updated successfully!');
     setEditItem(null);
   };
 
@@ -52,6 +57,8 @@ const ManageInventory = () => {
             color: '#1c2a3a',
           }}
         />
+
+        {notification && <Notification message={notification} />}
 
         {isLoading ? (
           <div className="text-center text-muted">⏳ Loading...</div>

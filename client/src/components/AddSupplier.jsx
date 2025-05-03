@@ -14,19 +14,19 @@ const AddSupplier = () => {
     paymentTerms: '',
   });
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setMessage('');
+    setSuccess('');
 
     try {
       const userId = localStorage.getItem('userId');
       await dispatch(addSupplier({ ...supplier, userId })).unwrap();
-      setMessage('✅ Supplier added successfully');
+      setSuccess('✅ Supplier added successfully');
       setSupplier({
         supplierName: '',
         phone: '',
@@ -61,14 +61,16 @@ const AddSupplier = () => {
             🧾 Add Supplier
           </h3>
 
-          {message && (
-            <div className="alert alert-success text-center fw-medium">
-              {message}
+          {success && (
+            <div className="alert alert-success d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-check-circle-fill fs-5 text-success"></i>
+              {success}
             </div>
           )}
 
           {error && (
-            <div className="alert alert-danger text-center fw-medium">
+            <div className="alert alert-danger d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
               {error}
             </div>
           )}

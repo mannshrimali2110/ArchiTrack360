@@ -27,10 +27,10 @@ export default function AddInventoryItem() {
             setName('');
             setQuantity('');
             setPrice('');
-            setSuccess('✅ Item added successfully!');
+            setSuccess('Item added successfully!');
         } catch (err) {
             console.error('Error adding item:', err);
-            setError('❌ Failed to add item. Please try again.');
+            setError('Failed to add item. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -58,13 +58,16 @@ export default function AddInventoryItem() {
                         🧱 Add Inventory Item
                     </h3>
 
+                    {/* ✅ Updated Alerts */}
                     {success && (
-                        <div className="alert alert-success text-center fw-medium">
+                        <div className="alert alert-success d-flex align-items-center gap-2 fw-medium">
+                            <i className="bi bi-check-circle-fill fs-5 text-success"></i>
                             {success}
                         </div>
                     )}
                     {error && (
-                        <div className="alert alert-danger text-center fw-medium">
+                        <div className="alert alert-danger d-flex align-items-center gap-2 fw-medium">
+                            <i className="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
                             {error}
                         </div>
                     )}

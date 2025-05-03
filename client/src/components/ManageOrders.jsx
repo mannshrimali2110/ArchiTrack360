@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchOrders, deleteOrder, updateOrder } from '../redux/order/orderSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Notification from './Notification';
 
 const ManageOrders = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const ManageOrders = () => {
     quantity: '',
     price: '',
   });
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     if (!orders || orders.length === 0) {
@@ -40,6 +42,8 @@ const ManageOrders = () => {
     console.log('Attempting to delete order with ID:', orderId);
     if (window.confirm('Are you sure you want to delete this order?')) {
       dispatch(deleteOrder(orderId));
+      setNotification('Order deleted successfully!');
+      setTimeout(() => setNotification(null), 3000);
     }
   };
 
@@ -101,6 +105,8 @@ const ManageOrders = () => {
           onChange={handleSearch}
         />
       </div>
+
+      {notification && <Notification message={notification} />}
 
       {isLoading ? (
         <div>Loading...</div>

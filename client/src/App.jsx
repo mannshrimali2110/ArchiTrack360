@@ -20,6 +20,7 @@ import EditSupplier from './components/EditSuppliers';
 import GenerateReport from './components/GenerateReport'; // Import GenerateReport
 import ViewOrders from './components/ViewOrders'; // Import ViewOrders
 import DashboardLayout from './components/DashboardLayout';
+import 'animate.css';
 
 function App() {
   return (

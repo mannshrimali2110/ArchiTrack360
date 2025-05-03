@@ -8,6 +8,7 @@ import {
   deleteSupplier,
   setSelectedSupplier,
 } from '../redux/supplier/supplierSlice';
+import Notification from './Notification';
 
 const ManageSuppliers = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const ManageSuppliers = () => {
   const [filter, setFilter] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [debouncedFilter, setDebouncedFilter] = useState('');
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,6 +38,8 @@ const ManageSuppliers = () => {
 
   const handleDelete = (id) => {
     dispatch(deleteSupplier(id));
+    setNotification('Supplier deleted successfully!');
+    setTimeout(() => setNotification(null), 3000);
   };
 
   const handleEdit = (id) => {
@@ -69,6 +73,8 @@ const ManageSuppliers = () => {
       <h2 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>
         🗂️ Manage Suppliers
       </h2>
+
+      {notification && <Notification message={notification} />}
 
       <div className="d-flex flex-column align-items-center mb-4">
         <input

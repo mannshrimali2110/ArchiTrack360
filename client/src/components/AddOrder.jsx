@@ -11,18 +11,20 @@ const AddOrder = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ type: '', text: '' });
+    setError('');
+    setSuccess('');
 
     try {
       await dispatch(addOrder(order));
-      setMessage({ type: 'success', text: '✅ Order added successfully!' });
+      setSuccess('Order added successfully!');
       setOrder({
         customerName: '',
         productName: '',
@@ -30,8 +32,8 @@ const AddOrder = () => {
         price: '',
       });
     } catch (err) {
-      console.error('Failed to save order:', err);
-      setMessage({ type: 'error', text: '❌ Failed to add order. Try again.' });
+      console.error('Error adding order:', err);
+      setError('Failed to add order. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -55,15 +57,16 @@ const AddOrder = () => {
             📝 Add Order
           </h3>
 
-          {message.text && (
-            <div
-              className={`alert ${
-                message.type === 'success'
-                  ? 'alert-success'
-                  : 'alert-danger'
-              } text-center fw-medium`}
-            >
-              {message.text}
+          {success && (
+            <div className="alert alert-success d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-check-circle-fill fs-5 text-success"></i>
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
+              {error}
             </div>
           )}
 

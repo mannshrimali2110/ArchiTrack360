@@ -2,9 +2,11 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSales, deleteSale } from '../redux/sales/salesSlice';
+import Notification from './Notification';
 
 const ManageSales = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [notification, setNotification] = useState(null);
   const dispatch = useDispatch();
   const { items: sales, isLoading, error } = useSelector((state) => state.sales);
 
@@ -15,7 +17,8 @@ const ManageSales = () => {
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this sale record?')) {
       dispatch(deleteSale(id));
-      alert('✅ Sale record deleted successfully!');
+      setNotification('Sale record deleted successfully!');
+      setTimeout(() => setNotification(null), 3000);
     }
   };
 
@@ -31,6 +34,8 @@ const ManageSales = () => {
         <h3 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>
           🧾 Manage Sales Records
         </h3>
+
+        {notification && <Notification message={notification} />}
 
         {/* Search Bar */}
         <div className="mb-4">

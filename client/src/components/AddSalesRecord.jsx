@@ -12,13 +12,15 @@ const AddSalesRecord = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage({ type: '', text: '' });
+    setError('');
+    setSuccess('');
 
     try {
       const payload = {
@@ -28,7 +30,7 @@ const AddSalesRecord = () => {
       };
 
       await dispatch(addSale(payload));
-      setMessage({ type: 'success', text: '✅ Sale record added successfully!' });
+      setSuccess('Sales record added successfully!');
 
       setSale({
         customerName: '',
@@ -38,7 +40,7 @@ const AddSalesRecord = () => {
       });
     } catch (err) {
       console.error('Error adding sale record:', err);
-      setMessage({ type: 'error', text: '❌ Failed to add sale record. Please try again.' });
+      setError('Failed to add sales record. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -62,11 +64,16 @@ const AddSalesRecord = () => {
             🧾 Add Sales Record
           </h3>
 
-          {message.text && (
-            <div
-              className={`alert ${message.type === 'success' ? 'alert-success' : 'alert-danger'} text-center fw-medium`}
-            >
-              {message.text}
+          {success && (
+            <div className="alert alert-success d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-check-circle-fill fs-5 text-success"></i>
+              {success}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger d-flex align-items-center gap-2 fw-medium">
+              <i className="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
+              {error}
             </div>
           )}
 

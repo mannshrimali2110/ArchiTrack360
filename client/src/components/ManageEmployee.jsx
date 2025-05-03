@@ -1,6 +1,7 @@
 // src/components/ManageEmployee.js
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Notification from './Notification';
 import {
   fetchEmployees,
   updateEmployee,
@@ -11,6 +12,7 @@ const ManageEmployee = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingEmployee, setEditingEmployee] = useState(null);
   const [formData, setFormData] = useState({ name: '', department: '', email: '' });
+  const [notification, setNotification] = useState(null);
 
   const dispatch = useDispatch();
   const employees = useSelector((state) => state?.employee?.employees);
@@ -44,7 +46,8 @@ const ManageEmployee = () => {
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteEmployee(id)).unwrap();
-      alert('✅ Employee deleted successfully');
+      setNotification('Employee deleted successfully!');
+      setTimeout(() => setNotification(null), 3000);
     } catch {
       alert('❌ Failed to delete employee');
     }
@@ -85,6 +88,8 @@ const ManageEmployee = () => {
             color: '#1c2a3a',
           }}
         />
+
+        {notification && <Notification message={notification} />}
 
         {filteredEmployees?.length ? (
           <div className="table-responsive">

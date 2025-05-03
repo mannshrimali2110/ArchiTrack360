@@ -72,11 +72,11 @@ const Dashboard = () => {
     datasets: [
       {
         label: 'Sales',
-        backgroundColor: 'rgba(0, 123, 255, 0.6)',
-        borderColor: 'rgba(0, 123, 255, 1)',
+        backgroundColor: '#cbd5e1', // dark teal
+        borderColor: '#94a3b8',     // darker teal
         borderWidth: 1,
-        hoverBackgroundColor: 'rgba(0, 123, 255, 0.8)',
-        hoverBorderColor: 'rgba(0, 123, 255, 1)',
+        hoverBackgroundColor: '#94a3b8', // medium-dark teal
+        hoverBorderColor: '#0d5c54',
         data: salesData.map((data) => data.sales),
       },
     ],
@@ -98,13 +98,14 @@ const Dashboard = () => {
                     style={{
                       backgroundColor: '#2d3748',
                       border: '2px solid white',
+                      borderRadius: '10px',
                     }}
                   >
                     <Card.Body>
-                      <Card.Title style={{ color: 'white' }}>
+                      <Card.Title style={{ color: 'white', fontSize: '1.2rem' }}>
                         {['Total Orders', 'Total Suppliers', 'Total Inventory', 'Total Employees'][index]}
                       </Card.Title>
-                      <Card.Text className="display-6" style={{ color: 'white' }}>
+                      <Card.Text className="display-6" style={{ color: 'white', fontWeight: 'bold' }}>
                         {total !== undefined ? total : 'Loading...'}
                       </Card.Text>
                     </Card.Body>
@@ -116,12 +117,12 @@ const Dashboard = () => {
             {/* Employee Table */}
             <div className="row mt-4">
               <div className="col-12">
-                <h3 className="text-center" style={{ color: 'white' }}>Employees</h3>
+                <h3 className="text-center mb-3" style={{ color: 'white' }}>Employees</h3>
                 <Table
-                  className="custom-table table-striped table-bordered table-hover mt-3"
-                  style={{ backgroundColor: '#2d3748', color: 'white' }}
+                  className="table table-striped table-dark table-bordered table-hover"
+                  style={{ backgroundColor: '#2d3748', borderRadius: '10px' }}
                 >
-                  <thead style={{ backgroundColor: '#2d3748', color: 'white' }}>
+                  <thead>
                     <tr>
                       <th>Name</th>
                       <th>Department</th>
@@ -144,9 +145,36 @@ const Dashboard = () => {
             {/* Sales Chart */}
             <div className="row mt-4">
               <div className="col-12">
-                <h3 className="text-center" style={{ color: 'white' }}>Sales</h3>
-                <div className="chart-container mt-3">
-                  <Bar data={salesChartData} />
+                <h3 className="text-center mb-3" style={{ color: 'white' }}>Sales Overview</h3>
+                <div
+                  className="p-3"
+                  style={{
+                    backgroundColor: '#2d3748',
+                    borderRadius: '10px',
+                  }}
+                >
+                  <Bar
+                    data={salesChartData}
+                    options={{
+                      responsive: true,
+                      plugins: {
+                        legend: { labels: { color: 'white' } },
+                        title: {
+                          display: false,
+                        },
+                      },
+                      scales: {
+                        x: {
+                          ticks: { color: 'white' },
+                          grid: { color: '#4a5568' },
+                        },
+                        y: {
+                          ticks: { color: 'white' },
+                          grid: { color: '#4a5568' },
+                        },
+                      },
+                    }}
+                  />
                 </div>
               </div>
             </div>
