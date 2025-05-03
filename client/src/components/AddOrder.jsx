@@ -41,16 +41,21 @@ const AddOrder = () => {
 
   return (
     <div
-      className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: '100vh', backgroundColor: '#e9f0f7' }}
+      className="container mt-4 d-flex justify-content-center"
+      style={{
+        maxWidth: '750px',
+        backgroundColor: '#f5faff',
+        padding: '30px',
+        borderRadius: '10px',
+      }}
     >
       <div className="w-100" style={{ maxWidth: '600px' }}>
         <div
           className="p-5 rounded shadow"
           style={{
-            backgroundColor: '#f4f9ff',
-            borderLeft: '6px solid #3b5b92',
-            boxShadow: '0 4px 14px rgba(0,0,0,0.1)',
+            backgroundColor: '#f5f9ff',
+            borderLeft: '8px solid #3b5b92',
+            boxShadow: '0 6px 16px rgba(0, 0, 0, 0.1)',
           }}
         >
           <h3 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>

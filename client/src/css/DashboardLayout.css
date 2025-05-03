@@ -1,15 +1,55 @@
+/* Wrapper that includes the whole dashboard */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  background-color: #00649f;
+}
+
+/* Main layout below the navbar */
 .dashboard-layout {
   display: flex;
-  height: calc(100vh - 60px); /* Adjust height to exclude Navbar height */
+  flex: 1;
+  /* Fill remaining vertical space below Navbar */
+  overflow: hidden;
+  margin: 0;
+  background-color: #00649f;
 }
 
-.dashboard-layout .dashboard-content {
-  flex: 1; /* Take remaining space after Sidebar */
-  padding: 20px; /* Add some padding for content */
-  overflow-y: auto; /* Enable scrolling for content if needed */
-}
-
+/* Sidebar styles */
 .dashboard-layout .sidebar {
-  width: 250px; /* Fixed width for Sidebar */
-  flex-shrink: 0; /* Prevent Sidebar from shrinking */
+  width: 250px;
+  flex-shrink: 0;
+  background-color: #00649f;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  overflow-y: auto;
+  margin: 0;
+}
+
+/* Override any reset styles that might affect borders */
+.dashboard-layout .sidebar .nav-item .sidebar-sublink {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: #00dbe7 !important;
+}
+
+.dashboard-layout .sidebar .nav-item .sidebar-sublink:hover {
+  border-color: #00dbe7 !important;
+}
+
+/* Ensure the borders are visible */
+.dashboard-layout .sidebar ul ul .nav-item {
+  position: relative;
+  z-index: 1;
+}
+
+/* Content styles */
+.dashboard-content {
+  flex: 1;
+  padding: 0;
+  overflow-y: auto;
+  background-color: #00649f;
+  margin: 0;
 }

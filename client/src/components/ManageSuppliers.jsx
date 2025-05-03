@@ -9,6 +9,7 @@ import {
   setSelectedSupplier,
 } from '../redux/supplier/supplierSlice';
 import Notification from './Notification';
+import DeleteModal from './DeleteModal';
 
 const ManageSuppliers = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const ManageSuppliers = () => {
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [debouncedFilter, setDebouncedFilter] = useState('');
   const [notification, setNotification] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [supplierToDelete, setSupplierToDelete] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -36,10 +39,24 @@ const ManageSuppliers = () => {
     dispatch(fetchSuppliers());
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    dispatch(deleteSupplier(id));
-    setNotification('Supplier deleted successfully!');
-    setTimeout(() => setNotification(null), 3000);
+  const handleDeleteClick = (supplier) => {
+    setSupplierToDelete(supplier);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await dispatch(deleteSupplier(supplierToDelete._id));
+      setNotification('Supplier deleted successfully!');
+      setShowDeleteModal(false);
+      setSupplierToDelete(null);
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      setNotification(`Failed to delete supplier: ${err.message || 'Unknown error'}`);
+      setShowDeleteModal(false);
+      setSupplierToDelete(null);
+      setTimeout(() => setNotification(null), 3000);
+    }
   };
 
   const handleEdit = (id) => {
@@ -74,7 +91,14 @@ const ManageSuppliers = () => {
         🗂️ Manage Suppliers
       </h2>
 
-      {notification && <Notification message={notification} />}
+      {notification && <Notification message={notification} type="success" />}
+
+      <DeleteModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteConfirm}
+        itemName="supplier"
+      />
 
       <div className="d-flex flex-column align-items-center mb-4">
         <input
@@ -157,7 +181,7 @@ const ManageSuppliers = () => {
                     </button>
                     <button
                       className="btn btn-danger"
-                      onClick={() => handleDelete(supplier._id)}
+                      onClick={() => handleDeleteClick(supplier)}
                     >
                       🗑️ Delete
                     </button>

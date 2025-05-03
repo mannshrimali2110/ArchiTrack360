@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from '../redux/employee/employeeSlice';
-import 'animate.css'; // Make sure this is installed
-
+import 'animate.css'; 
 export default function AddEmployee() {
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
@@ -22,7 +21,7 @@ export default function AddEmployee() {
 
     const newEmployee = {
       name,
-      department: role, // keeping the backend field as 'department'
+      department: role,
       email,
       userId: currentUser.user.id,
     };
@@ -45,11 +44,12 @@ export default function AddEmployee() {
 
   return (
     <div
-      className="container d-flex justify-content-center align-items-center"
+      className="container mt-4 d-flex justify-content-center"
       style={{
-        minHeight: '100vh',
-        backgroundColor: '#e7ecf5',
-        color: '#1c2a3a',
+        maxWidth: '750px',
+        backgroundColor: '#f5faff',
+        padding: '30px',
+        borderRadius: '10px',
       }}
     >
       <div className="w-100" style={{ maxWidth: '600px' }}>

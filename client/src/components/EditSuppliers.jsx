@@ -51,86 +51,141 @@ const EditSupplier = () => {
     };
 
     return (
-        <div className="container mt-5">
-            <h2>{id ? 'Edit Supplier' : 'Add New Supplier'}</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label className="form-label">Supplier Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="supplierName"
-                        value={supplier.supplierName}
-                        onChange={handleChange}
-                        required
-                    />
+        <div className="container mt-5" style={{ maxWidth: '1000px', backgroundColor: '#f5faff', padding: '30px', borderRadius: '10px' }}>
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <h2 className="fw-bold" style={{ color: '#1c2a3a' }}>
+                    {id ? '✏️ Edit Supplier' : '➕ Add New Supplier'}
+                </h2>
+                <div className="form-type-badge px-3 py-1" style={{ 
+                    backgroundColor: '#3b5b92', 
+                    color: 'white', 
+                    borderRadius: '20px',
+                    fontSize: '0.9rem'
+                }}>
+                    {id ? 'Edit Form' : 'Add Form'}
                 </div>
-                <div className="mb-3">
-                    <label className="form-label">Phone</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="phone"
-                        value={supplier.phone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Email</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        name="email"
-                        value={supplier.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Address</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="address"
-                        value={supplier.address}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Supply Products</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="supplyProducts"
-                        value={supplier.supplyProducts}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Payment Terms</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="paymentTerms"
-                        value={supplier.paymentTerms}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary me-2">
-                    {id ? 'Update Supplier' : 'Add Supplier'}
-                </button>
-                <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => navigate('/dashboard/suppliers/manage')}
-                >
-                    Cancel
-                </button>
-            </form>
+            </div>
+
+            <div className="form-container p-4" style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Supplier Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="supplierName"
+                            value={supplier.supplierName}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Phone</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="phone"
+                            value={supplier.phone}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Email</label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            name="email"
+                            value={supplier.email}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Address</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="address"
+                            value={supplier.address}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Supply Products</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="supplyProducts"
+                            value={supplier.supplyProducts}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="form-label fw-semibold">Payment Terms</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="paymentTerms"
+                            value={supplier.paymentTerms}
+                            onChange={handleChange}
+                            required
+                            style={{
+                                backgroundColor: '#e1ebf7',
+                                borderColor: '#aac4e4',
+                                color: '#1c2a3a',
+                            }}
+                        />
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        <button 
+                            type="submit" 
+                            className="btn fw-bold"
+                            style={{
+                                backgroundColor: '#3b5b92',
+                                borderColor: '#2e4975',
+                                color: '#ffffff',
+                            }}
+                        >
+                            {id ? '💾 Update Supplier' : '➕ Add Supplier'}
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-secondary fw-bold"
+                            onClick={() => navigate('/dashboard/suppliers/manage')}
+                        >
+                            ❎ Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 };

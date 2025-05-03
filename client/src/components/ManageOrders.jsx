@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchOrders, deleteOrder, updateOrder } from '../redux/order/orderSlice';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Notification from './Notification';
+import DeleteModal from './DeleteModal';
 
 const ManageOrders = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const ManageOrders = () => {
     price: '',
   });
   const [notification, setNotification] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [orderToDelete, setOrderToDelete] = useState(null);
 
   useEffect(() => {
     if (!orders || orders.length === 0) {
@@ -37,15 +40,6 @@ const ManageOrders = () => {
 
   // Debugging fetchOrders dispatch
   console.log('fetchOrders action dispatched');
-
-  const handleDelete = (orderId) => {
-    console.log('Attempting to delete order with ID:', orderId);
-    if (window.confirm('Are you sure you want to delete this order?')) {
-      dispatch(deleteOrder(orderId));
-      setNotification('Order deleted successfully!');
-      setTimeout(() => setNotification(null), 3000);
-    }
-  };
 
   const handleUpdate = () => {
     const updatedPayload = {
@@ -87,14 +81,45 @@ const ManageOrders = () => {
     setSearchTerm(e.target.value.toLowerCase());
   };
 
+  const handleDeleteClick = (order) => {
+    setOrderToDelete(order);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await dispatch(deleteOrder(orderToDelete._id));
+      setNotification('Order deleted successfully!');
+      setShowDeleteModal(false);
+      setOrderToDelete(null);
+      setTimeout(() => setNotification(null), 3000);
+    } catch (err) {
+      setNotification(`Failed to delete order: ${err.message || 'Unknown error'}`);
+      setShowDeleteModal(false);
+      setOrderToDelete(null);
+      setTimeout(() => setNotification(null), 3000);
+    }
+  };
+
   const filteredOrders = (orders || []).filter((order) =>
     order.customerName.toLowerCase().includes(searchTerm) ||
     order.productName.toLowerCase().includes(searchTerm)
   );
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Manage Orders</h2>
+    <div className="container mt-5" style={{ maxWidth: '1000px', backgroundColor: '#f5faff', padding: '30px', borderRadius: '10px' }}>
+      <h2 className="text-center fw-bold mb-4" style={{ color: '#1c2a3a' }}>
+        🗂️ Manage Orders
+      </h2>
+
+      {notification && <Notification message={notification} type="success" />}
+
+      <DeleteModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteConfirm}
+        itemName="order"
+      />
 
       <div className="input-group mb-3">
         <input
@@ -105,8 +130,6 @@ const ManageOrders = () => {
           onChange={handleSearch}
         />
       </div>
-
-      {notification && <Notification message={notification} />}
 
       {isLoading ? (
         <div>Loading...</div>
@@ -141,7 +164,7 @@ const ManageOrders = () => {
                       </button>
                       <button
                         className="btn btn-danger"
-                        onClick={() => handleDelete(order._id)}
+                        onClick={() => handleDeleteClick(order)}
                       >
                         Delete
                       </button>

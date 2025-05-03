@@ -38,11 +38,12 @@ export default function AddInventoryItem() {
 
     return (
         <div
-            className="container d-flex justify-content-center align-items-center"
+            className="container mt-4 d-flex justify-content-center"
             style={{
-                minHeight: '100vh',
-                backgroundColor: '#e7ecf5',
-                color: '#1c2a3a',
+                maxWidth: '750px',
+                backgroundColor: '#f5faff',
+                padding: '30px',
+                borderRadius: '10px',
             }}
         >
             <div className="w-100" style={{ maxWidth: '600px' }}>
