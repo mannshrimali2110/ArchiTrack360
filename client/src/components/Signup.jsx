@@ -10,8 +10,10 @@ function Signup() {
 
   const handleSignup = async (e) => {
     e.preventDefault();
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
+
     try {
-      const response = await axios.post('http://localhost:5000/api/users/signup', { email, password });
+      const response = await axios.post(`${baseUrl}/api/users/signup`, { email, password });
       if (response.data.success) {
         navigate('/');
       } else {

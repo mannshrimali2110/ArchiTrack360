@@ -14,9 +14,10 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     dispatch(loginStart()); // Start loading
+    const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const response = await axios.post(`${baseUrl}/api/users/login`, { email, password });
 
       if (response.data.success) {
         localStorage.setItem('token', response.data.token); // Save token to localStorage
