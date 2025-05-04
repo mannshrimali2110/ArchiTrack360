@@ -113,7 +113,7 @@ const AboutUs = () => {
                         />
 
                         <a
-                            href="https://github.com/mannshrimali/architrack360"
+                            href="https://github.com/mannshrimali2110/architrack360"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="bg-[#38bdf8] !text-black font-semibold px-6 py-2 rounded-lg hover:bg-[#0ea5e9] transition duration-300"
